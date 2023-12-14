@@ -37,7 +37,7 @@ onValue(shoppingListInDB, function(snapshot) {
             appendItemToShoppingListEl(currentItem)
         }    
     } else {
-        shoppingListEl.innerHTML = "Aucune info pour le moment"
+        shoppingListEl.innerHTML = "Aucune tâche pour le moment"
     }
 })
 
@@ -56,8 +56,13 @@ function appendItemToShoppingListEl(item) {
     let newEl = document.createElement("li")
     
     newEl.textContent = itemValue
-    
+
     newEl.addEventListener("click", function() {
+        newEl.style.backgroundColor = "green"
+        newEl.style.color = "white"
+    })
+    
+    newEl.addEventListener("dblclick", function() {
         let exactLocationOfItemInDB = ref(database, `shoppingList/${itemID}`)
         
         remove(exactLocationOfItemInDB)
