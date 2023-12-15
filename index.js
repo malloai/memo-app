@@ -13,12 +13,30 @@ const inputFieldEl = document.getElementById("input-field")
 const addButtonEl = document.getElementById("add-button")
 const shoppingListEl = document.getElementById("shopping-list")
 
+
+
 addButtonEl.addEventListener("click", function() {
+    function notifyMe() {
+        if (!("Notification" in window)) {
+          alert("This browser does not support desktop notification");
+        } else if (Notification.permission === "granted") {
+          const notification = new Notification(inputValue);
+          // …
+        } else if (Notification.permission !== "denied") {
+          Notification.requestPermission().then((permission) => {
+            if (permission === "granted") {
+              const notification = new Notification(inputValue);
+            }
+          });
+        }
+      }
+
+
     let inputValue = inputFieldEl.value
     
     if (inputValue !== "") {
         push(shoppingListInDB, inputValue)
-    
+        notifyMe()
         clearInputFieldEl()
     }
 })
