@@ -69,3 +69,7 @@ ul li:hover {
     background-color: #9EB8D9;
     cursor: pointer;
 }
+
+#clicked {
+    background: orange;
+}
