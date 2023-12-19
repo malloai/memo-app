@@ -1,5 +1,5 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-app.js"
-import { getDatabase, ref, push, onValue, remove } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-database.js"
+import { getDatabase, ref, push, onValue, remove, update } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-database.js"
 
 const appSettings = {
     databaseURL: "https://realtime-database-1ad2a-default-rtdb.europe-west1.firebasedatabase.app/"
@@ -43,6 +43,13 @@ onValue(shoppingListInDB, function(snapshot) {
 
 })
 
+let exactLocationOfItemInDB = ref(database, `shoppingList/${itemID}/switch`)
+        if (exactLocationOfItemInDB) {
+            newEl.setAttribute("id", "zero")
+        } else {
+            newEl.setAttribute("id", "clicked")
+        }
+
 function clearShoppingListEl() {
     shoppingListEl.innerHTML = ""
 }
@@ -54,7 +61,6 @@ function clearInputFieldEl() {
 function appendItemToShoppingListEl(item) {
     let itemID = item[0]
     let itemValue = item[1].text
-    let itemSwitch = item[1].switch
     
     let newEl = document.createElement("li")
     
@@ -63,13 +69,14 @@ function appendItemToShoppingListEl(item) {
     //CHANGE TO MAKE
 
     newEl.addEventListener("click", () => {
-        let query = db.ref("shoppingList").orderByChild(itemID).equalTo(itemID);
-        query.once("child_added", function(snapshot) {
-        snapshot.ref.update({ switch: true })
-        });
-    })
+        let exactLocationOfItemInDB = ref(database, `shoppingList/${itemID}/switch`)
+        remove(exactLocationOfItemInDB)
 
-    
+        if (exactLocationOfItemInDB) {
+            newEl.setAttribute("id", "clicked")
+        }
+    })
+ 
     newEl.addEventListener("dblclick", function() {
         let exactLocationOfItemInDB = ref(database, `shoppingList/${itemID}`)
         remove(exactLocationOfItemInDB)

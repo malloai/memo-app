@@ -57,7 +57,8 @@ ul {
 
 ul li {
     font-size: 20px;
-    background-color: #EEF5FF;
+    background-color: orange;
+    color: white;
     padding: 15px;
     border-radius: 8px;
     flex-grow: 1;
